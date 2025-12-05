@@ -6,7 +6,7 @@ import os
 
 # Construir ruta absoluta al engine basada en la ubicación de este script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ENGINE_REL_PATH = os.path.join("engine", "stockfish-windows-x86-64-avx2", "stockfish", "stockfish-windows-x86-64-avx2.exe")
+ENGINE_REL_PATH = os.path.join("infrastructure", "engines", "stockfish-windows-x86-64-avx2", "stockfish", "stockfish-windows-x86-64-avx2.exe")
 ENGINE_PATH = os.path.join(BASE_DIR, ENGINE_REL_PATH)
 
 
