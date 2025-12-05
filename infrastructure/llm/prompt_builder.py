@@ -83,8 +83,10 @@ class PromptBuilder:
 
         if mate is not None:
             eval_data["evaluation"] = f"Mate in {mate}"
+            eval_data["mate"] = mate
         elif cp is not None:
             eval_data["evaluation"] = f"{cp} centipawns"
+            eval_data["cp"] = cp
 
         if depth is not None:
             eval_data["depth"] = depth
