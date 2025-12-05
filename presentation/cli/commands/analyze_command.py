@@ -7,16 +7,15 @@ and executes the AnalyzePosition use case.
 
 import argparse
 import sys
-from typing import List
 
 # Ensure project root is in path for imports to work if run directly
 import os
 
-sys.path.append(os.getcwd())
-
 from container import Container
 from application.dto.analysis_request import AnalysisRequest
 from presentation.cli.formatters.json_formatter import JsonFormatter
+
+sys.path.append(os.getcwd())
 
 
 def parse_args() -> argparse.Namespace:
@@ -33,7 +32,7 @@ def parse_args() -> argparse.Namespace:
         action="append",
         dest="moves",
         default=[],
-        help="Candidate moves to analyze (UCI format, e.g., e2e4). Can be specified multiple times.",
+        help="Candidate moves to analyze (UCI format, e.g. e2e4). Can be specified multiple times.",
     )
     parser.add_argument(
         "--audience",
@@ -79,7 +78,7 @@ def main():
         json_output = JsonFormatter.format(response)
         print(json_output)
 
-    except Exception as e:
+    except (OSError, ValueError, RuntimeError) as e:
         # Fallback error handling usually shouldn't happen if use case handles exceptions,
         # but for safety:
         error_response = {"success": False, "error": f"Critical CLI error: {str(e)}"}

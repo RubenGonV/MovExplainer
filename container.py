@@ -1,9 +1,11 @@
 """
 Dependency Injection Container for MovExplainer.
+
+This module provides a container class that implements a simple dependency injection
+pattern to manage the lifecycle of application components.
 """
 
 import os
-import sys
 
 from application.use_cases.analyze_position import AnalyzePosition
 from infrastructure.engines.stockfish_engine import StockfishEngine
@@ -44,21 +46,25 @@ class Container:
         return path
 
     def get_stockfish_engine(self) -> StockfishEngine:
+        """Returns the StockfishEngine instance, creating it if necessary."""
         if not self._engine:
             self._engine = StockfishEngine(self._stockfish_path)
         return self._engine
 
     def get_ollama_llm(self) -> OllamaLLM:
+        """Returns the OllamaLLM instance, creating it if necessary."""
         if not self._llm:
             self._llm = OllamaLLM(model=self._ollama_model)
         return self._llm
 
     def get_validator(self) -> ChessLibValidator:
+        """Returns the ChessLibValidator instance, creating it if necessary."""
         if not self._validator:
             self._validator = ChessLibValidator()
         return self._validator
 
     def get_analyze_position_use_case(self) -> AnalyzePosition:
+        """Creates and returns the AnalyzePosition use case with dependencies."""
         return AnalyzePosition(
             engine_service=self.get_stockfish_engine(),
             llm_service=self.get_ollama_llm(),

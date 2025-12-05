@@ -5,7 +5,6 @@ JSON Formatter for CLI output.
 import json
 from dataclasses import is_dataclass, asdict
 from typing import Any
-from application.dto.analysis_response import AnalysisResponse
 
 
 class JsonFormatter:
