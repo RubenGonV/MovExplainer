@@ -6,15 +6,14 @@
 
 **MovExplainer** es una herramienta de análisis de ajedrez diseñada con **Clean Architecture** que combina la potencia de cálculo de **Stockfish** con capacidades de explicación de **LLM (Ollama)**. El sistema evalúa posiciones, valida movimientos y genera explicaciones en lenguaje natural comprensibles para diferentes niveles de audiencia (principiante, intermedio, experto).
 
+📊 **[Ver progreso del proyecto](PROGRESS.md)** - Rastrea características completadas, en desarrollo y planificadas.
+
 ### Características principales
 
-- 🏗️ **Clean Architecture**: Código modular y desacoplado (Domain, Application, Infrastructure, Presentation).
 - 🎯 **Análisis de posiciones**: Evalúa posiciones FEN utilizando Stockfish.
 - 🤖 **Explicaciones con IA**: Genera explicaciones narrativas de los movimientos usando modelos locales (Ollama/Mistral).
 - 🔍 **Comparación de movimientos**: Analiza y compara múltiples candidatos.
 - ✅ **Validación robusta**: Verifica legalidad de movimientos y formatos FEN.
-- 🖥️ **CLI Potente**: Interfaz de línea de comandos fácil de usar con salida JSON.
-- 🧪 **Testing Integrado**: Suite completa de tests unitarios y de integración.
 
 ## 🚀 Instalación
 
@@ -43,18 +42,63 @@
    pip install -r requirements.txt
    ```
 
-## 📦 Dependencias
-
-- `python-chess`: Manipulación de tablero y reglas.
-- `ollama`: Cliente para interactuar con el LLM local.
-- `pydantic`: Validación de datos y DTOs.
-- `pytest`: Framework de testing.
-
 ## 💻 Uso
 
-### CLI (Línea de Comandos)
+MovExplainer ofrece tres formas de interacción: CLI, REST API y Web UI.
 
-La forma principal de interactuar con MovExplainer es a través de su CLI.
+### 🌐 Web UI (Recomendado)
+
+La forma más visual e intuitiva de usar MovExplainer.
+
+1. **Iniciar el servidor**:
+   ```bash
+   # Activar entorno virtual
+   .venv\Scripts\activate
+   
+   # Iniciar servidor FastAPI
+   python -m uvicorn presentation.api.main:app --reload
+   ```
+
+2. **Abrir en el navegador**:
+   ```
+   http://localhost:8000
+   ```
+
+### 🔌 REST API
+
+Integra MovExplainer en tus propias aplicaciones.
+
+**Endpoint principal**: `POST /api/v1/analyze`
+
+**Ejemplo con curl**:
+```bash
+curl -X POST "http://localhost:8000/api/v1/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+    "moves": ["e7e5"],
+    "audience": "intermediate"
+  }'
+```
+
+**Respuesta (JSON)**:
+```json
+{
+  "success": true,
+  "explanation": "Move: e7e5\n\n1. Accomplishment: This move advances the pawn...",
+  "error": null,
+  "best_move": "e7e5",
+  "score": -34
+}
+```
+
+**Documentación interactiva**: Una vez iniciado el servidor, visita:
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+### 🖥️ CLI (Línea de Comandos)
+
+Para uso en scripts o automatización.
 
 ```bash
 # Activar entorno virtual si no lo está
@@ -64,9 +108,7 @@ La forma principal de interactuar con MovExplainer es a través de su CLI.
 python presentation/cli/commands/analyze_command.py --fen "FEN_STRING" --move "e2e4" --audience "beginner"
 ```
 
-### Ejemplo
-
-**Comanado:**
+**Ejemplo**:
 ```bash
 python presentation/cli/commands/analyze_command.py --fen "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1" --move "e7e5" --audience "intermediate"
 ```
@@ -95,15 +137,17 @@ El proyecto sigue los principios de Clean Architecture:
 ```
 MovExplainer/
 ├── application/        # Casos de uso y DTOs
-│   ├── use_cases/      # Lógica de negocio (ej. AnalyzePosition)
-│   └── dto/            # Objetos de transferencia de datos
+│   ├── use_cases/         # Casos de uso (ej. AnalyzePosition)
+│   └── dto/               # Objetos de transferencia de datos
 ├── domain/             # Entidades y reglas de negocio
 ├── infrastructure/     # Implementaciones externas
-│   ├── engines/        # Stockfish
-│   ├── llm/            # Ollama
-│   └── validators/     # Chess validator
+│   ├── engines/           # Stockfish
+│   ├── llm/               # Ollama
+│   └── validators/        # Chess validator
 ├── presentation/       # Entry points
-│   └── cli/            # Comandos de consola
+│   ├── api/               # REST API (FastAPI)
+│   ├── cli/               # Comandos de consola
+│   └── web/               # Interfaz web (HTML/CSS/JS)
 ├── tests/              # Tests automatizados
 ├── container.py        # Inyección de dependencias
 └── requirements.txt
@@ -127,5 +171,3 @@ pytest
 Rubén González Velasco
 
 ---
-
-**MovExplainer** - Potenciando el aprendizaje de ajedrez con IA.
