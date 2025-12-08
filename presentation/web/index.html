@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovExplainer - Chess Move Analysis</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chessboard.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M20 10L24 18H16L20 10Z" fill="white"/>
+                    <rect x="18" y="18" width="4" height="12" fill="white"/>
+                    <path d="M14 30H26V32H14V30Z" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" style="stop-color:#6366f1"/>
+                            <stop offset="100%" style="stop-color:#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>MovExplainer</h1>
+            </div>
+            <p class="subtitle">AI-Powered Chess Move Analysis</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel: Input Form -->
+            <div class="panel input-panel">
+                <h2>Position Setup</h2>
+                
+                <form id="analysisForm">
+                    <div class="form-group">
+                        <label for="fen">FEN Position</label>
+                        <input 
+                            type="text" 
+                            id="fen" 
+                            name="fen" 
+                            placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+                            value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+                            required
+                        >
+                        <small>Standard chess position in FEN notation</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="moves">Moves (UCI format)</label>
+                        <input 
+                            type="text" 
+                            id="moves" 
+                            name="moves" 
+                            placeholder="e2e4, e7e5 (comma-separated)"
+                            value="e2e4"
+                        >
+                        <small>Enter moves in UCI format, separated by commas</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="targetAudience">Target Audience</label>
+                        <select id="targetAudience" name="targetAudience">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                        <small>Explanation complexity level</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="analyzeBtn">
+                        <span class="btn-text">Analyze Position</span>
+                        <span class="btn-loader" style="display: none;">
+                            <svg class="spinner" viewBox="0 0 24 24">
+                                <circle class="spinner-circle" cx="12" cy="12" r="10" stroke-width="3" fill="none"/>
+                            </svg>
+                            Analyzing...
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Chess Board -->
+                <div class="board-container">
+                    <h3>Current Position</h3>
+                    <div id="board" class="chess-board"></div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results -->
+            <div class="panel results-panel">
+                <h2>Analysis Results</h2>
+                
+                <div id="resultsContainer" class="results-container">
+                    <div class="empty-state">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="40" cy="40" r="35" stroke="currentColor" stroke-width="2" opacity="0.2"/>
+                            <path d="M40 25V40L50 50" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <p>Submit a position to see the analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (required for Chessboard.js) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Chessboard.js -->
+    <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
