@@ -106,7 +106,7 @@ def test_explain_endpoint_use_case_exception(mock_container):
     )
 
     # ACT: Make the API request
-    response = client.post("/explain", json={"fen": "invalid_fen"})
+    response = client.post("/explain", json={"fen": "invalid_fen", "moves": []})
 
     # ASSERT: Verify graceful error handling
     assert response.status_code == 200

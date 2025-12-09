@@ -9,7 +9,9 @@ import os
 
 from application.use_cases.analyze_position import AnalyzePosition
 from infrastructure.engines.stockfish_engine import StockfishEngine
+from infrastructure.llm.base_llm import ILLMService
 from infrastructure.llm.ollama_llm import OllamaLLM
+from infrastructure.llm.groq_llm import GroqLLM
 from infrastructure.validators.chess_lib_validator import ChessLibValidator
 
 
@@ -20,7 +22,9 @@ class Container:
 
     def __init__(self):
         self._stockfish_path = self._resolve_stockfish_path()
+        self._llm_provider = os.getenv("LLM_PROVIDER", "ollama")  # "ollama" or "groq"
         self._ollama_model = os.getenv("OLLAMA_MODEL", "mistral")
+        self._groq_model = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
         # Singleton-like instances
         self._engine = None
@@ -28,8 +32,13 @@ class Container:
         self._validator = None
 
     def _resolve_stockfish_path(self) -> str:
-        """Finds the Stockfish executable in the default location."""
-        # Assuming run from root
+        """Finds the Stockfish executable, checking env var first for cloud deployment."""
+        # Check environment variable first (for cloud/Docker deployment)
+        env_path = os.getenv("STOCKFISH_PATH")
+        if env_path and os.path.exists(env_path):
+            return env_path
+
+        # Fallback to local Windows development path
         base_path = os.path.dirname(os.path.abspath(__file__))
         stockfish_rel_path = os.path.join(
             "infrastructure",
@@ -51,10 +60,13 @@ class Container:
             self._engine = StockfishEngine(self._stockfish_path)
         return self._engine
 
-    def get_ollama_llm(self) -> OllamaLLM:
-        """Returns the OllamaLLM instance, creating it if necessary."""
+    def get_llm(self) -> ILLMService:
+        """Returns the LLM instance based on LLM_PROVIDER env var."""
         if not self._llm:
-            self._llm = OllamaLLM(model=self._ollama_model)
+            if self._llm_provider == "groq":
+                self._llm = GroqLLM(model=self._groq_model)
+            else:
+                self._llm = OllamaLLM(model=self._ollama_model)
         return self._llm
 
     def get_validator(self) -> ChessLibValidator:
@@ -67,7 +79,7 @@ class Container:
         """Creates and returns the AnalyzePosition use case with dependencies."""
         return AnalyzePosition(
             engine_service=self.get_stockfish_engine(),
-            llm_service=self.get_ollama_llm(),
+            llm_service=self.get_llm(),
             validator=self.get_validator(),
         )
 
