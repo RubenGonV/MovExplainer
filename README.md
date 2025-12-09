@@ -4,16 +4,18 @@
 
 ## 📋 Descripción
 
-**MovExplainer** es una herramienta de análisis de ajedrez diseñada con **Clean Architecture** que combina la potencia de cálculo de **Stockfish** con capacidades de explicación de **LLM (Ollama)**. El sistema evalúa posiciones, valida movimientos y genera explicaciones en lenguaje natural comprensibles para diferentes niveles de audiencia (principiante, intermedio, experto).
+**MovExplainer** es una herramienta de análisis de ajedrez diseñada con **Clean Architecture** que combina la potencia de cálculo de **Stockfish** con capacidades de explicación de **LLM (Ollama)**. El sistema evalúa posiciones, valida movimientos y genera explicaciones en lenguaje natural comprensibles para diferentes niveles de audiencia (`principiante`, `intermedio`, `experto`).
 
-📊 **[Ver progreso del proyecto](PROGRESS.md)** - Rastrea características completadas, en desarrollo y planificadas.
+>- 📊 **[Ver progreso del proyecto](PROGRESS.md)** - Rastrea características completadas, en desarrollo y planificadas.
+>- 👉 **[Ver documentación generada por IA (DeepWiki)](https://deepwiki.com/RubenGonV/MovExplainer)**
 
-### Características principales
+## ⚙️ Características Destacadas
 
-- 🎯 **Análisis de posiciones**: Evalúa posiciones FEN utilizando Stockfish.
-- 🤖 **Explicaciones con IA**: Genera explicaciones narrativas de los movimientos usando modelos locales (Ollama/Mistral).
-- 🔍 **Comparación de movimientos**: Analiza y compara múltiples candidatos.
-- ✅ **Validación robusta**: Verifica legalidad de movimientos y formatos FEN.
+* **Análisis Profundo de Posiciones**: Evaluación precisa de cualquier posición de ajedrez (formato **FEN**) utilizando el motor de análisis **Stockfish**.
+* **Explicaciones Narrativas Asistidas por IA**: Generación de comentarios y justificaciones detalladas sobre los movimientos, impulsadas por modelos de lenguaje locales (**Ollama/Mistral**).
+* **Comparación y Evaluación de Candidatos**: Herramientas para examinar y confrontar el impacto de múltiples movimientos alternativos.
+* **Validación Integral del Ajedrez**: Verificación estricta de la legalidad de los movimientos propuestos y del cumplimiento del formato **FEN**.
+
 
 ## 🚀 Instalación
 
